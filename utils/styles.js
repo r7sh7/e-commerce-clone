@@ -7,8 +7,19 @@ export const useStyles = makeStyles({
       color: "#ffffff",
       marginLeft: 10,
     },
-    main: {
-      minHeight: "80vh",
-    },
+  },
+  brand: {
+    fontWeight: "bold",
+    fontSize: "1.5rem",
+  },
+  main: {
+    minHeight: "80vh",
+  },
+  grow: {
+    flex: 1,
+  },
+  headericons: {
+    padding: "0.5rem",
+    marginRight: 10,
   },
 });
