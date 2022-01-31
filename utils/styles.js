@@ -21,5 +21,6 @@ export const useStyles = makeStyles({
   headericons: {
     padding: "0.5rem",
     marginRight: 10,
+    cursor: "pointer",
   },
 });

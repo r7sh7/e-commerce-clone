@@ -5,9 +5,12 @@ import React from "react";
 import { useStyles } from "../utils/styles";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 const Layout = ({ children }) => {
   const classes = useStyles();
+  const { data: session, status } = useSession();
+  console.log(status);
   return (
     <div>
       <Head>
@@ -22,16 +25,24 @@ const Layout = ({ children }) => {
           </NextLink>
           <div className={classes.grow}></div>
           <div>
+            {status === "authenticated" ? (
+              <Typography>Welcome {session.user.name}</Typography>
+            ) : (
+              <></>
+            )}
             <NextLink href="/cart" passHref>
               <Link className={classes.headericons}>
                 <ShoppingCartIcon />
               </Link>
             </NextLink>
-            <NextLink href="/login" passHref>
-              <Link className={classes.headericons}>
-                <LogoutIcon />
-              </Link>
-            </NextLink>
+            {/* <NextLink href="/login" passHref> */}
+            <Link
+              className={classes.headericons}
+              onClick={status === "authenticated" ? signOut : signIn}
+            >
+              <LogoutIcon />
+            </Link>
+            {/* </NextLink> */}
           </div>
         </Toolbar>
       </AppBar>

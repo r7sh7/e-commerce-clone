@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import "../styles/globals.css";
+import { SessionProvider } from "next-auth/react";
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
@@ -8,7 +9,11 @@ function MyApp({ Component, pageProps }) {
       jssStyles.parentElement.removeChild(jssStyles);
     }
   }, []);
-  return <Component {...pageProps} />;
+  return (
+    <SessionProvider session={pageProps.session}>
+      <Component {...pageProps} />
+    </SessionProvider>
+  );
 }
 
 export default MyApp;
