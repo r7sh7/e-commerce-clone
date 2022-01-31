@@ -25,10 +25,20 @@ export const cartReducer = (state = initState, action) => {
         cart: { ...state.cart, cartItems, itemsCount },
       };
     }
-    // case REMOVE_FROM_CART:
-    //     return {
-    //         ...state,
-    //     }
+    case REMOVE_FROM_CART: {
+      const cartItems = state.cart.cartItems.filter(
+        (item) => item.id !== action.payload.id
+      );
+      const itemsCount = cartItems.reduce((a, c) => a + c.quantity, 0);
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          cartItems,
+          itemsCount,
+        },
+      };
+    }
     default:
       return state;
   }

@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/router";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../store/actions/cartActions";
 import { useStyles } from "../utils/styles";
 
@@ -17,8 +17,11 @@ const Product = ({ id, title, price, description, category, image }) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const classes = useStyles();
+  const { cartItems } = useSelector((state) => state.cart.cart);
 
   const addItemToCart = () => {
+    const existItem = cartItems.find((item) => item.id === id);
+    const quantity = existItem ? existItem.quantity + 1 : 1;
     const product = {
       id,
       title,
@@ -26,6 +29,7 @@ const Product = ({ id, title, price, description, category, image }) => {
       description,
       category,
       image,
+      quantity,
     };
     dispatch(addToCart(product));
     router.push("/cart");

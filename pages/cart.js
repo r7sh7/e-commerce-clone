@@ -2,6 +2,7 @@ import {
   Button,
   Card,
   Grid,
+  Link,
   List,
   ListItem,
   MenuItem,
@@ -15,13 +16,26 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Layout from "../components/Layout";
 import NextLink from "next/link";
 import Image from "next/image";
+import { addToCart, removeFromCart } from "../store/actions/cartActions";
 
 const Cart = () => {
-  const { cartItems } = useSelector((state) => state.cart.cart);
+  const { cartItems, itemsCount } = useSelector((state) => state.cart.cart);
+  const dispatch = useDispatch();
+
+  const updateCartHandler = (item, quantity) => {
+    console.log(quantity);
+    const product = { ...item, quantity };
+    dispatch(addToCart(product));
+  };
+
+  const removeItemHandler = (item) => {
+    console.log(item);
+    dispatch(removeFromCart(item));
+  };
   return (
     <Layout>
       <Typography variant="h1" component="h1">
@@ -29,7 +43,10 @@ const Cart = () => {
       </Typography>
       {cartItems.length === 0 ? (
         <div>
-          Cart is empty. <NextLink href="/">Continue shopping</NextLink>
+          Cart is empty.{" "}
+          <NextLink href="/" passHref>
+            <Link>Continue shopping</Link>
+          </NextLink>
         </div>
       ) : (
         <Grid container spacing={1}>
@@ -60,7 +77,12 @@ const Cart = () => {
                         <Typography color="primary">{item.title}</Typography>
                       </TableCell>
                       <TableCell align="right">
-                        <Select value={item.quantity}>
+                        <Select
+                          value={item.quantity}
+                          onChange={(e) =>
+                            updateCartHandler(item, e.target.value)
+                          }
+                        >
                           {[...Array(10).keys()].map((x) => (
                             <MenuItem key={x + 1} value={x + 1}>
                               {x + 1}
@@ -68,9 +90,13 @@ const Cart = () => {
                           ))}
                         </Select>
                       </TableCell>
-                      <TableCell align="right">$ {item.price}</TableCell>
+                      <TableCell align="right">${item.price}</TableCell>
                       <TableCell align="right">
-                        <Button variant="contained" color="secondary">
+                        <Button
+                          variant="contained"
+                          color="secondary"
+                          onClick={() => removeItemHandler(item)}
+                        >
                           Remove
                         </Button>
                       </TableCell>
@@ -85,8 +111,7 @@ const Cart = () => {
               <List>
                 <ListItem>
                   <Typography variant="h2">
-                    Subtotal ({cartItems.reduce((a, c) => a + c.quantity, 0)}{" "}
-                    items) : ${" "}
+                    Subtotal ({itemsCount} items) : $
                     {cartItems.reduce((a, c) => a + c.quantity * c.price, 0)}
                   </Typography>
                 </ListItem>
