@@ -11,39 +11,44 @@ import {
 import Head from "next/head";
 import Image from "next/image";
 import Layout from "../components/Layout";
+import Product from "../components/Product";
 import styles from "../styles/Home.module.css";
 import data from "../utils/data";
 
-export default function Home() {
+export default function Home({ products }) {
   return (
     <Layout>
       <div>
         <h1>Products</h1>
         <Grid container spacing={3}>
-          {data.products.map((product) => (
-            <Grid item md={4} key={product.name}>
-              <Card>
-                <CardActionArea>
-                  <CardMedia
-                    component="img"
-                    image={product.image}
-                    title={product.name}
-                  ></CardMedia>
-                  <CardContent>
-                    <Typography>{product.name}</Typography>
-                  </CardContent>
-                </CardActionArea>
-                <CardActions>
-                  <Typography>${product.price}</Typography>
-                  <Button size="small" color="primary">
-                    Add To Cart
-                  </Button>
-                </CardActions>
-              </Card>
-            </Grid>
-          ))}
+          {products.map(
+            ({ id, title, price, description, category, image }) => (
+              <Grid item md={4} key={id}>
+                <Product
+                  id={id}
+                  title={title}
+                  price={price}
+                  description={description}
+                  category={category}
+                  image={image}
+                />
+              </Grid>
+            )
+          )}
         </Grid>
       </div>
     </Layout>
   );
+}
+
+export async function getServerSideProps(context) {
+  const products = await fetch("https://fakestoreapi.com/products").then(
+    (res) => res.json()
+  );
+
+  return {
+    props: {
+      products,
+    },
+  };
 }
