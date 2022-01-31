@@ -24,7 +24,7 @@ export const useStyles = makeStyles({
     padding: "0.5rem",
     marginRight: 10,
     color: "white",
-    // cursor: "pointer",
+    cursor: "pointer",
   },
   multiLineEllipsis: {
     overflow: "hidden",
