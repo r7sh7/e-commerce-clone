@@ -1,16 +1,30 @@
-import { ADD_TO_CART, CART_ITEM_REQUEST, REMOVE_FROM_CART } from "../constants";
+import { ADD_TO_CART, REMOVE_FROM_CART } from "../constants";
 
 const initState = {
-  items: [],
+  cart: {
+    cartItems: [],
+  },
 };
 
 export const cartReducer = (state = initState, action) => {
   switch (action.type) {
-    case ADD_TO_CART:
+    case ADD_TO_CART: {
+      const newItem = action.payload;
+      const existItem = state.cart.cartItems.find(
+        (item) => item.id === newItem.id
+      );
+      const cartItems = existItem
+        ? state.cart.cartItems.map((item) =>
+            item.id === existItem.id ? newItem : item
+          )
+        : [...state.cart.cartItems, newItem];
+      const itemsCount = cartItems.reduce((a, c) => a + c.quantity, 0);
+
       return {
         ...state,
-        items: [...state.items, action.payload],
+        cart: { ...state.cart, cartItems, itemsCount },
       };
+    }
     // case REMOVE_FROM_CART:
     //     return {
     //         ...state,

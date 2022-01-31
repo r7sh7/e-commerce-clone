@@ -13,16 +13,13 @@ import { useStyles } from "../utils/styles";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 
 const Layout = ({ children }) => {
   const classes = useStyles();
   const { data: session, status } = useSession();
-  const router = useRouter();
 
-  const { items } = useSelector((state) => state.cart);
-
+  const { itemsCount } = useSelector((state) => state.cart.cart);
   return (
     <div>
       <Head>
@@ -48,7 +45,7 @@ const Layout = ({ children }) => {
             )}
             <NextLink href="/checkout" passHref>
               <Link className={classes.headerIcons}>
-                <Badge color="warning" badgeContent={items.length}>
+                <Badge color="warning" badgeContent={itemsCount}>
                   <ShoppingCartIcon />
                 </Badge>
               </Link>

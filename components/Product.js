@@ -7,12 +7,14 @@ import {
   CardMedia,
   Typography,
 } from "@mui/material";
+import { useRouter } from "next/router";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../store/actions/cartActions";
 
 const Product = ({ id, title, price, description, category, image }) => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const addItemToCart = () => {
     const product = {
       id,
@@ -23,6 +25,7 @@ const Product = ({ id, title, price, description, category, image }) => {
       image,
     };
     dispatch(addToCart(product));
+    router.push("/checkout");
   };
   return (
     <Card style={{ height: 500 }}>
