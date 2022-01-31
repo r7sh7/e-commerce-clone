@@ -1,5 +1,7 @@
 import { makeStyles } from "@mui/styles";
 
+const LINES_TO_SHOW = 2;
+
 export const useStyles = makeStyles({
   navbar: {
     backgroundColor: "#203040",
@@ -13,14 +15,22 @@ export const useStyles = makeStyles({
     fontSize: "1.5rem",
   },
   main: {
-    minHeight: "80vh",
+    maxHeight: "90vh",
   },
   grow: {
     flex: 1,
   },
-  headericons: {
+  headerIcons: {
     padding: "0.5rem",
     marginRight: 10,
-    cursor: "pointer",
+    color: "white",
+    // cursor: "pointer",
+  },
+  multiLineEllipsis: {
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    display: "-webkit-box",
+    "-webkit-line-clamp": LINES_TO_SHOW,
+    "-webkit-box-orient": "vertical",
   },
 });
