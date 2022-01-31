@@ -11,10 +11,13 @@ import { useRouter } from "next/router";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../store/actions/cartActions";
+import { useStyles } from "../utils/styles";
 
 const Product = ({ id, title, price, description, category, image }) => {
   const dispatch = useDispatch();
   const router = useRouter();
+  const classes = useStyles();
+
   const addItemToCart = () => {
     const product = {
       id,
@@ -25,11 +28,11 @@ const Product = ({ id, title, price, description, category, image }) => {
       image,
     };
     dispatch(addToCart(product));
-    router.push("/checkout");
+    router.push("/cart");
   };
   return (
-    <Card style={{ height: 500 }}>
-      <CardActionArea style={{ height: 400 }}>
+    <Card style={{ height: 450 }}>
+      <CardActionArea style={{ height: 370 }}>
         <CardMedia
           component="img"
           image={image}
@@ -37,11 +40,11 @@ const Product = ({ id, title, price, description, category, image }) => {
           style={{ objectFit: "contain", height: 300 }}
         ></CardMedia>
         <CardContent>
-          <Typography>{title}</Typography>
+          <Typography className={classes.multiLineEllipsis}>{title}</Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Typography>$ {price}</Typography>
+        <Typography>$ {price} </Typography>
         <Button size="small" color="primary" onClick={addItemToCart}>
           Add To Cart
         </Button>
