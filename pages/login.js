@@ -39,7 +39,7 @@ const Login = () => {
     );
   }
 
-  // const handleLogin = ({ email, password }) => {};
+  const handleLogin = ({ email, password }) => {};
   return (
     <Layout title="login">
       <Container maxWidth="sm">
