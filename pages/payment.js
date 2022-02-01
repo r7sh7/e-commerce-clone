@@ -47,7 +47,7 @@ const Payment = () => {
     }
   }, []);
   return (
-    <Layout>
+    <Layout title="payment">
       <CheckoutWizard activeStep={2} />
       <Container maxWidth="sm">
         <form onSubmit={submitHandler}>

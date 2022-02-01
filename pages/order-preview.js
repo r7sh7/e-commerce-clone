@@ -51,7 +51,7 @@ const OrderPreview = () => {
     router.push("/order-complete");
   }
   return (
-    <Layout>
+    <Layout title="order-preview">
       <CheckoutWizard activeStep={3} />
       <Typography variant="h1" component="h1">
         Place Order

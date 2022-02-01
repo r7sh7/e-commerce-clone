@@ -26,7 +26,7 @@ const Shipping = () => {
   } = useForm();
   const router = useRouter();
   const dispatch = useDispatch();
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const { shippingAddress } = useSelector((state) => state.cart.cart);
   useEffect(() => {
     if (status !== "authenticated") {
@@ -57,7 +57,7 @@ const Shipping = () => {
   }
 
   return (
-    <Layout>
+    <Layout title="shipping">
       <CheckoutWizard activeStep={1} />
       <Container maxWidth="sm">
         <form onSubmit={handleSubmit(submitHandler)}>

@@ -24,7 +24,7 @@ import { addToCart, removeFromCart } from "../store/actions/cartActions";
 import { useRouter } from "next/router";
 
 const Cart = () => {
-  const { cartItems, itemsCount } = useSelector((state) => state.cart.cart);
+  const { cartItems } = useSelector((state) => state.cart.cart);
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -34,7 +34,6 @@ const Cart = () => {
   };
 
   const removeItemHandler = (item) => {
-    console.log(item);
     dispatch(removeFromCart(item));
   };
 
@@ -42,7 +41,7 @@ const Cart = () => {
     router.push("/shipping");
   };
   return (
-    <Layout>
+    <Layout title="cart">
       <Typography variant="h1" component="h1">
         Shopping Cart
       </Typography>

@@ -6,7 +6,7 @@ import Layout from "../components/Layout";
 const OrderComplete = () => {
   const router = useRouter();
   return (
-    <Layout>
+    <Layout title="order-complete">
       <Box textAlign="center">
         <Typography component="h1" variant="h1" textAlign="center">
           Your Order has been placed successfully!

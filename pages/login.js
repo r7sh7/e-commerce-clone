@@ -39,9 +39,9 @@ const Login = () => {
     );
   }
 
-  const handleLogin = ({ email, password }) => {};
+  // const handleLogin = ({ email, password }) => {};
   return (
-    <Layout>
+    <Layout title="login">
       <Container maxWidth="sm">
         <form onSubmit={handleSubmit(handleLogin)}>
           <Typography variant="h1" component="h1">

@@ -7,7 +7,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Layout from "../components/Layout";
 import NextLink from "next/link";
 import { signIn, useSession } from "next-auth/react";
@@ -45,7 +45,7 @@ const Register = () => {
     router.push(redirect || "/");
   }
   return (
-    <Layout>
+    <Layout title="register">
       <Container maxWidth="sm">
         <form onSubmit={handleSubmit(handleRegister)}>
           <Typography variant="h1" component="h1">
