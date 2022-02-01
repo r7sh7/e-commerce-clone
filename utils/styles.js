@@ -16,6 +16,7 @@ export const useStyles = makeStyles({
   },
   main: {
     maxHeight: "90vh",
+    paddingTop: 20,
   },
   grow: {
     flex: 1,
@@ -32,5 +33,11 @@ export const useStyles = makeStyles({
     display: "-webkit-box",
     "-webkit-line-clamp": LINES_TO_SHOW,
     "-webkit-box-orient": "vertical",
+  },
+  footer: {
+    display: "flex",
+    margin: "1.5rem 0",
+    padding: "1.5rem 0",
+    justifyContent: "center",
   },
 });
