@@ -13,7 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Layout from "../components/Layout";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -21,12 +21,14 @@ import CheckoutWizard from "../components/CheckoutWizard";
 import { addDoc, doc, serverTimestamp, collection } from "firebase/firestore";
 import { db } from "../firebase";
 import { useSession } from "next-auth/react";
+import { EMPTY_CART } from "../store/constants";
 
 const OrderPreview = () => {
   const { cartItems, shippingAddress, paymentMethod } = useSelector(
     (state) => state.cart.cart
   );
   const router = useRouter();
+  const dispatch = useDispatch();
   const { data: session } = useSession();
 
   const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100;
@@ -47,7 +49,7 @@ const OrderPreview = () => {
       timestamp: serverTimestamp(),
     });
     localStorage.removeItem("cartItems");
-    console.log(newDocRef);
+    dispatch({ type: EMPTY_CART });
     router.push("/order-complete");
   }
   return (
