@@ -13,9 +13,10 @@ import React from "react";
 import { useStyles } from "../utils/styles";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useSelector } from "react-redux";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useRouter } from "next/router";
 
 const Layout = ({ children, title }) => {
   const theme = createTheme({
@@ -46,8 +47,14 @@ const Layout = ({ children, title }) => {
   });
   const classes = useStyles();
   const { data: session, status } = useSession();
+  const { cartItems } = useSelector((state) => state.cart.cart);
+  const router = useRouter();
 
-  const { itemsCount } = useSelector((state) => state.cart.cart);
+  function handleLogout() {
+    localStorage.clear();
+    router.push("/");
+    signOut();
+  }
   return (
     <div>
       <Head>
@@ -59,7 +66,7 @@ const Layout = ({ children, title }) => {
           <Toolbar>
             <NextLink href="/" passHref>
               <Link style={{ textDecoration: "none" }}>
-                <Typography className={classes.brand}>Amazon</Typography>
+                <Typography className={classes.brand}>Amazon Clone</Typography>
               </Link>
             </NextLink>
             <div className={classes.grow}></div>
@@ -69,20 +76,25 @@ const Layout = ({ children, title }) => {
                   Hello, {session.user.name}
                 </Typography>
               ) : (
-                <Link onClick={signIn} className={classes.headerIcons}>
-                  <Typography>Hello, Sign In</Typography>
-                </Link>
+                <NextLink href="/login" passHref>
+                  <Link className={classes.headerIcons}>
+                    <Typography>Hello, Sign In</Typography>
+                  </Link>
+                </NextLink>
               )}
               <NextLink href="/cart" passHref>
                 <Link className={classes.headerIcons}>
-                  <Badge color="primary" badgeContent={itemsCount}>
+                  <Badge
+                    color="primary"
+                    badgeContent={cartItems.reduce((a, c) => a + c.quantity, 0)}
+                  >
                     <ShoppingCartIcon />
                   </Badge>
                 </Link>
               </NextLink>
               {status === "authenticated" && (
                 <NextLink href="/" passHref>
-                  <Link className={classes.headerIcons} onClick={signOut}>
+                  <Link className={classes.headerIcons} onClick={handleLogout}>
                     <LogoutIcon />
                   </Link>
                 </NextLink>

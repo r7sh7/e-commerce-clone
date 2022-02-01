@@ -1,8 +1,19 @@
-import { ADD_TO_CART, REMOVE_FROM_CART } from "../constants";
+import {
+  getLocalStorageData,
+  setLocalStorageData,
+} from "../../utils/localStorage";
+import {
+  ADD_TO_CART,
+  REMOVE_FROM_CART,
+  SAVE_PAYMENT_METHOD,
+  SAVE_SHIPPING_ADDRESS,
+} from "../constants";
 
 const initState = {
   cart: {
-    cartItems: [],
+    cartItems: getLocalStorageData("cartItems") || [],
+    shippingAddress: getLocalStorageData("shippingAddress") || {},
+    paymentMethod: getLocalStorageData("paymentMethod") || [],
   },
 };
 
@@ -18,24 +29,41 @@ export const cartReducer = (state = initState, action) => {
             item.id === existItem.id ? newItem : item
           )
         : [...state.cart.cartItems, newItem];
-      const itemsCount = cartItems.reduce((a, c) => a + c.quantity, 0);
-
+      setLocalStorageData("cartItems", cartItems);
       return {
         ...state,
-        cart: { ...state.cart, cartItems, itemsCount },
+        cart: { ...state.cart, cartItems },
       };
     }
     case REMOVE_FROM_CART: {
       const cartItems = state.cart.cartItems.filter(
         (item) => item.id !== action.payload.id
       );
-      const itemsCount = cartItems.reduce((a, c) => a + c.quantity, 0);
+      setLocalStorageData("cartItems", cartItems);
       return {
         ...state,
         cart: {
           ...state.cart,
           cartItems,
-          itemsCount,
+        },
+      };
+    }
+
+    case SAVE_SHIPPING_ADDRESS: {
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          shippingAddress: action.payload,
+        },
+      };
+    }
+    case SAVE_PAYMENT_METHOD: {
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          paymentMethod: action.payload,
         },
       };
     }
