@@ -21,13 +21,14 @@ import Layout from "../components/Layout";
 import NextLink from "next/link";
 import Image from "next/image";
 import { addToCart, removeFromCart } from "../store/actions/cartActions";
+import { useRouter } from "next/router";
 
 const Cart = () => {
   const { cartItems, itemsCount } = useSelector((state) => state.cart.cart);
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const updateCartHandler = (item, quantity) => {
-    console.log(quantity);
     const product = { ...item, quantity };
     dispatch(addToCart(product));
   };
@@ -35,6 +36,10 @@ const Cart = () => {
   const removeItemHandler = (item) => {
     console.log(item);
     dispatch(removeFromCart(item));
+  };
+
+  const checkoutHandler = () => {
+    router.push("/shipping");
   };
   return (
     <Layout>
@@ -106,18 +111,24 @@ const Cart = () => {
               </Table>
             </TableContainer>
           </Grid>
-          <Grid md={3} xs={12}>
+          <Grid item md={3} xs={12}>
             <Card>
               <List>
                 <ListItem>
                   <Typography variant="h2">
-                    Subtotal ({itemsCount} items) : $
+                    Subtotal ({cartItems.reduce((a, c) => a + c.quantity, 0)}{" "}
+                    items) : $
                     {cartItems.reduce((a, c) => a + c.quantity * c.price, 0)}
                   </Typography>
                 </ListItem>
                 <ListItem>
-                  <Button variant="contained" color="primary" fullWidth>
-                    Check Out
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    onClick={checkoutHandler}
+                  >
+                    Proceed to check Out
                   </Button>
                 </ListItem>
               </List>

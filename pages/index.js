@@ -1,19 +1,6 @@
-import {
-  Button,
-  Card,
-  CardActionArea,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Grid,
-  Typography,
-} from "@mui/material";
-import Head from "next/head";
-import Image from "next/image";
+import { Grid } from "@mui/material";
 import Layout from "../components/Layout";
 import Product from "../components/Product";
-import styles from "../styles/Home.module.css";
-import data from "../utils/data";
 
 export default function Home({ products }) {
   return (
