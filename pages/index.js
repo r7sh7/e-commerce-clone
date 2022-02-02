@@ -10,7 +10,7 @@ export default function Home({ products }) {
   const classes = useStyles();
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = products.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = products?.slice(indexOfFirstItem, indexOfLastItem);
   const pageNumbers = Math.ceil(products.length / itemsPerPage);
   const handleChange = (event, value) => {
     setCurrentPage(value);
@@ -48,7 +48,7 @@ export default function Home({ products }) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps() {
   const products = await fetch("https://fakestoreapi.com/products").then(
     (res) => res.json()
   );
